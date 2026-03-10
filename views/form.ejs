@@ -1,0 +1,40 @@
+<%- include('partials/_header') %>
+<div class="container">
+  <h1>Bienvenue dans le <%= title %></h1>
+  <% if (Object.keys(data).length > 0) { %>
+   <h2>Données reçues :</h2>
+
+<ul>
+  <p>Nom : <%= data.nom %></p>
+  <p>Métier : <%= data.metier %></p>
+  <p>Confirmation : <%= data.confirm ? "NO" : "YES" %></p>
+</ul>
+  <% } %>
+  <form action="/" method="GET">
+
+    <div>
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" name="nom" required>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="metier">Métier :</label>
+      <input type="text" id="metier" name="metier" required>
+    </div>
+
+    <br>
+
+    <div>
+      <input type="checkbox" id="accepte" name="accepte">
+      <label for="accepte">Aimez-vous Node.js</label>
+    </div>
+
+    <br>
+
+    <button type="submit">Envoyer</button>
+
+  </form>
+</div>
+<%- include('partials/_footer') %>
