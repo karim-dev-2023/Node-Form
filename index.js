@@ -13,6 +13,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+// Sans ce middleware, les fichiers uploadés seraient stockés dans un dossier temporaire du système
 app.use("/uploads", express.static(cfg.dir.uploads));
 
 app.get("/", (req, res) => {
