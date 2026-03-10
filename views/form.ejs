@@ -4,13 +4,13 @@
   <% if (Object.keys(data).length > 0) { %>
    <h2>Données reçues :</h2>
 
-<ul>
-  <p>Nom : <%= data.nom %></p>
-  <p>Métier : <%= data.metier %></p>
-  <p>Confirmation : <%= data.confirm ? "NO" : "YES" %></p>
-</ul>
+  <ul>
+    <p>Nom : <%= data.nom %></p>
+    <p>Métier : <%= data.metier %></p>
+    <p>Confirmation : <%= data.confirm ? "NO" : "YES" %></p>
+  </ul>
   <% } %>
-  <form action="/" method="GET">
+  <form action="/" method="POST">
 
     <div>
       <label for="nom">Nom :</label>
@@ -32,6 +32,11 @@
     </div>
 
     <br>
+    
+    <div>
+      <label>Choisir un fichier :</label>
+      <input type="file" name="monfichier">
+    </div>
 
     <button type="submit">Envoyer</button>
 
