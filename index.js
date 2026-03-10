@@ -1,31 +1,64 @@
-// Express Application
 import express from "express";
 import "dotenv/config";
+import formidable from "formidable";
+import path from "path";
 
-// Port de l'application
-const cfg = { port: process.env.PORT || 3000 };
+const cfg = {
+  port: process.env.PORT || 3000,
+  dir: { uploads: "./uploads" },
+};
 
 const app = express();
-const formidable = require("formidable");
 
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// Middleware pour parser les données du formulaire
-app.use(express.urlencoded({ extended: true }));
-// Route pour afficher le formulaire
-app.all("/", (req, res) => {
-  if (req.method === "GET" || req.method === "POST") {
-    res.render("form", {
-      title: "Analyser les données GET",
-      data: req.body ? req.body : req.query,
-    });
-  } else {
-    next();
-  }
+app.use("/uploads", express.static(cfg.dir.uploads));
+
+app.get("/", (req, res) => {
+  res.render("form", {
+    title: "Parse HTTP POST file data",
+    data: {},
+  });
 });
 
-// Démarrer le serveur
+app.post("/", (req, res, next) => {
+  const form = formidable({
+    uploadDir: cfg.dir.uploads,
+    keepExtensions: true,
+  });
+
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      next(err);
+      return;
+    }
+
+    const data = { ...fields };
+
+    const fichier = Array.isArray(files.monfichier)
+      ? files.monfichier[0]
+      : files.monfichier;
+
+    console.dir(files, { depth: null, color: true }); 
+    
+   if (fichier && fichier.size > 0) {
+      data.filename = fichier.originalFilename;
+      data.filetype = fichier.mimetype;
+      data.filesize = Math.ceil(fichier.size / 1024) + " KB";
+      data.uploadto = fichier.filepath;
+    data.imageurl = "/uploads/" + path.basename(fichier.filepath);
+    }
+
+    res.render("form", {
+      title: "Parse HTTP POST file data",
+      data,
+    });
+  });
+});
+
+
+
 app.listen(cfg.port, () => {
   console.log(`Server is listening on port ${cfg.port}`);
 });

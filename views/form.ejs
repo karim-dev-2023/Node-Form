@@ -1,45 +1,91 @@
 <%- include('partials/_header') %>
-<div class="container">
-  <h1>Bienvenue dans le <%= title %></h1>
-  <% if (Object.keys(data).length > 0) { %>
-   <h2>Données reçues :</h2>
 
-  <ul>
-    <p>Nom : <%= data.nom %></p>
-    <p>Métier : <%= data.metier %></p>
-    <p>Confirmation : <%= data.confirm ? "NO" : "YES" %></p>
-  </ul>
+<div class="container mt-5">
+
+  <div class="card shadow-lg">
+    <div class="card-body">
+
+      <h2 class="text-center mb-4">Formulaire Node.js</h2>
+
+      <form action="/" method="POST" enctype="multipart/form-data">
+
+        <div class="mb-3">
+          <label class="form-label">Nom <span class="text-danger">*</span></label>
+          <input type="text" name="nom" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Métier <span class="text-danger">*</span></label>
+          <input type="text" name="metier" class="form-control" required>
+        </div>
+
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="accepte" id="node">
+          <label class="form-check-label" for="node"> 
+            Aimez-vous Node.js ? <span class="text-danger">*</span>
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Choisir une image</label>
+          <input class="form-control" type="file" name="monfichier">
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-primary px-4">Envoyer</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <% if (data && Object.keys(data).length > 0) { %>
+
+  <div class="card mt-4 shadow">
+    <div class="card-body">
+
+      <h4>Données reçues</h4>
+
+      <ul class="list-group">
+
+        <li class="list-group-item">
+          <strong>Nom :</strong> <%= data.nom %>
+        </li>
+
+        <li class="list-group-item">
+          <strong>Métier :</strong> <%= data.metier %>
+        </li>
+
+        <li class="list-group-item">
+          <strong>Aime Node.js :</strong>
+          <%= data.accepte ? "Oui" : "Non" %>
+        </li>
+
+      </ul>
+
+      <% if (data.filename) { %>
+
+      <div class="mt-4 text-center">
+
+        <h5>Image uploadée</h5>
+
+        <img src="<%= data.imageurl %>" class="img-fluid rounded shadow" style="max-width:250px">
+
+        <p class="mt-2 text-muted">
+          <%= data.filename %> (<%= data.filesize %>)
+        </p>
+
+      </div>
+
+      <% } %>
+
+    </div>
+  </div>
+
   <% } %>
-  <form action="/" method="POST">
 
-    <div>
-      <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" required>
-    </div>
-
-    <br>
-
-    <div>
-      <label for="metier">Métier :</label>
-      <input type="text" id="metier" name="metier" required>
-    </div>
-
-    <br>
-
-    <div>
-      <input type="checkbox" id="accepte" name="accepte">
-      <label for="accepte">Aimez-vous Node.js</label>
-    </div>
-
-    <br>
-    
-    <div>
-      <label>Choisir un fichier :</label>
-      <input type="file" name="monfichier">
-    </div>
-
-    <button type="submit">Envoyer</button>
-
-  </form>
 </div>
+
+
 <%- include('partials/_footer') %>
